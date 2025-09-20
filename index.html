@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Clone Pro</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <div class="toolbar-section">
+                <button class="toolbar-btn" data-action="copy" title="Copy">
+                    <span class="material-icons">content_copy</span>
+                </button>
+                <button class="toolbar-btn" data-action="cut" title="Cut">
+                    <span class="material-icons">content_cut</span>
+                </button>
+                <button class="toolbar-btn" data-action="paste" title="Paste">
+                    <span class="material-icons">content_paste</span>
+                </button>
+            </div>
+            
+            <div class="toolbar-section">
+                <select class="font-family" title="Font Family">
+                    <option value="Arial">Arial</option>
+                    <option value="monospace">Monospace</option>
+                    <option value="sans-serif">Sans-Serif</option>
+                    <option value="serif">Serif</option>
+                </select>
+                <select class="font-size" title="Font Size">
+                    <option value="12">12</option>
+                    <option value="14" selected>14</option>
+                    <option value="16">16</option>
+                    <option value="18">18</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+            
+            <div class="toolbar-section">
+                <button class="toolbar-btn" data-action="bold" title="Bold">
+                    <span class="material-icons">format_bold</span>
+                </button>
+                <button class="toolbar-btn" data-action="italic" title="Italic">
+                    <span class="material-icons">format_italic</span>
+                </button>
+                <button class="toolbar-btn" data-action="underline" title="Underline">
+                    <span class="material-icons">format_underlined</span>
+                </button>
+            </div>
+            
+            <div class="toolbar-section">
+                <button class="toolbar-btn" data-action="align-left" title="Align Left">
+                    <span class="material-icons">format_align_left</span>
+                </button>
+                <button class="toolbar-btn" data-action="align-center" title="Align Center">
+                    <span class="material-icons">format_align_center</span>
+                </button>
+                <button class="toolbar-btn" data-action="align-right" title="Align Right">
+                    <span class="material-icons">format_align_right</span>
+                </button>
+            </div>
+            
+            <div class="toolbar-section">
+                <div class="color-picker">
+                    <span class="material-icons">format_color_text</span>
+                    <input type="color" class="font-color" value="#000000" title="Font Color">
+                </div>
+                <div class="color-picker">
+                    <span class="material-icons">format_color_fill</span>
+                    <input type="color" class="background-color" value="#ffffff" title="Background Color">
+                </div>
+            </div>
+            
+            <div class="toolbar-section">
+                <button class="toolbar-btn" data-action="save" title="Save">
+                    <span class="material-icons">save</span>
+                </button>
+                <button class="toolbar-btn" data-action="open" title="Open">
+                    <span class="material-icons">folder_open</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Formula Bar -->
+        <div class="formula-bar">
+            <input type="text" class="address-input" readonly placeholder="A1">
+            <span class="formula-icon">fx</span>
+            <input type="text" class="formula-input" placeholder="Enter formula or value">
+        </div>
+        
+        <!-- Grid Container -->
+        <div class="grid-container">
+            <div class="grid-header">
+                <div class="corner-cell"></div>
+                <div class="column-headers"></div>
+            </div>
+            <div class="grid-body">
+                <div class="row-numbers"></div>
+                <div class="cells-container"></div>
+            </div>
+        </div>
+        
+        <!-- Sheet Tabs -->
+        <div class="sheet-tabs">
+            <button class="add-sheet-btn" title="Add Sheet">
+                <span class="material-icons">add</span>
+            </button>
+            <div class="sheet-tabs-container">
+                <div class="sheet-tab active" data-sheet="0">Sheet 1</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+</body>
+</html>
