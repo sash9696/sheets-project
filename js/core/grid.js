@@ -19,6 +19,8 @@ function initializeGrid() {
     console.log('Initializing grid...');
     createColumnHeaders();
     createRowNumbers();
+    createCells();
+    setupEventListeners();
     console.log('Grid initialized successfully!');
 
 };
@@ -60,6 +62,99 @@ function createRowNumbers() {
     console.log(`Created ${GRID_CONFIG.ROWS} row numbers`);
 }
 
+// Create cell grid
+function createCells() {
+    const container = document.querySelector('.cells-container');
+    if (!container) {
+        console.error('Cells container not found!');
+        return;
+    }
+    
+    for (let row = 0; row < GRID_CONFIG.ROWS; row++) {
+        const rowElement = document.createElement('div');
+        rowElement.className = 'cell-row';
+        
+        for (let col = 0; col < GRID_CONFIG.COLS; col++) {
+            const cell = createCell(row, col);
+            rowElement.appendChild(cell);
+        }
+        container.appendChild(rowElement);
+    }
+    console.log(`Created ${GRID_CONFIG.ROWS * GRID_CONFIG.COLS} cells`);
+}
+// Create individual cell
+function createCell(row, col) {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.dataset.row = row;
+    cell.dataset.col = col;
+    cell.contentEditable = true;
+    
+    // Store cell reference
+    const address = getCellAddress(row, col);
+    gridState.cells.set(address, cell);
+    
+    return cell;
+}
+
+// Get cell address (A1, B2, etc.)
+function getCellAddress(row, col) {
+    return String.fromCharCode(65 + col) + (row + 1);
+}
+
+// Setup grid event listeners
+function setupEventListeners() {
+    const cells = document.querySelectorAll('.cell');
+    cells.forEach(cell => {
+        cell.addEventListener('click', handleCellClick);
+        cell.addEventListener('blur', handleCellBlur);
+        cell.addEventListener('keydown', handleCellKeydown);
+    });
+    console.log('Event listeners attached to all cells');
+}
+
+function handleCellClick(event) {
+    const cell = event.target;
+    const row = parseInt(cell.dataset.row);
+    const col = parseInt(cell.dataset.col);
+    setActiveCell(row, col);
+    updateAddressBar(getCellAddress(row, col));
+    console.log(`Cell clicked: ${getCellAddress(row, col)}`);
+}
+
+// Set active cell
+function setActiveCell(row, col) {
+    // Remove previous active cell styling
+    const prevActive = document.querySelector('.cell.active');
+    if (prevActive) {
+        prevActive.classList.remove('active');
+    }
+    
+    // Set new active cell
+    const address = getCellAddress(row, col);
+    const cell = gridState.cells.get(address);
+    if (cell) {
+        cell.classList.add('active');
+        gridState.activeCell = { row, col, address };
+    }
+}
+
+// Update address bar
+function updateAddressBar(address) {
+    const addressInput = document.querySelector('.address-input');
+    if (addressInput) {
+        addressInput.value = address;
+    }
+}
+
+
+function handleCellBlur(event) {
+
+}
+
+function handleCellKeydown(event) {
+
+}
 
 window.GridManager = {
     initializeGrid
