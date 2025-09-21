@@ -148,14 +148,44 @@ function updateAddressBar(address) {
 }
 
 
+// Handle cell blur (when cell loses focus)
 function handleCellBlur(event) {
-
+    const cell = event.target;
+    const row = parseInt(cell.dataset.row);
+    const col = parseInt(cell.dataset.col);
+    const address = getCellAddress(row, col);
+    
+    // Update cell value in data model
+    updateCellValue(address, cell.textContent);
+    console.log(`Cell value updated: ${address} = "${cell.textContent}"`);
 }
 
 function handleCellKeydown(event) {
-
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        // Move to next row or handle formula
+        handleEnterKey();
+    }
 }
 
+function handleEnterKey() {
+    if (!gridState.activeCell) return;
+    
+    const { row, col } = gridState.activeCell;
+    const nextRow = Math.min(row + 1, GRID_CONFIG.ROWS - 1);
+    setActiveCell(nextRow, col);
+    updateAddressBar(getCellAddress(nextRow, col));
+}
+
+function updateCellValue(address, value) {
+    console.log(`Cell ${address} value: ${value}`);
+}
+
+
 window.GridManager = {
-    initializeGrid
+    initializeGrid,
+    getCellAddress,
+    setActiveCell,
+    updateCellValue,
+    GRID_CONFIG
 }
