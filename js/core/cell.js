@@ -134,7 +134,10 @@ function setCellFormula(row, col, formula) {
     
     // Check for cycles BEFORE setting the formula
     if (CycleDetection.wouldCreateCycle(formula, address)) {
-        alert('⚠️ CYCLE DETECTED! This formula would create a circular dependency.');
+        // Show visual cycle tracing
+        CycleDetection.traceCyclePath(address);
+        
+        alert('⚠️ CYCLE DETECTED! This formula would create a circular dependency.\n\nWatch the cells highlight to see the cycle path.');
         console.log('Cycle detected, formula rejected:', formula);
         return false; // Don't set the formula
     }

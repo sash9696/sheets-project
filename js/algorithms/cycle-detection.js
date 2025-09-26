@@ -53,8 +53,85 @@ function wouldCreateCycle(formula, targetAddress) {
     return hasCycleResult;
 }
 
+// Visual cycle tracing with animations
+function colorPromise() {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve(), 1000);
+    });
+}
+
+async function traceCyclePath(cycleStart) {
+    console.log(`Tracing cycle starting from: ${cycleStart}`);
+    
+    // Highlight the cycle path
+    const cyclePath = findCyclePath(cycleStart);
+    
+    for (const address of cyclePath) {
+        const cell = gridState.cells.get(address);
+        if (cell) {
+            cell.style.backgroundColor = 'lightblue';
+            await colorPromise();
+        }
+    }
+    
+    // Reset colors after tracing
+    setTimeout(() => {
+        for (const address of cyclePath) {
+            const cell = gridState.cells.get(address);
+            if (cell) {
+                cell.style.backgroundColor = '';
+            }
+        }
+    }, 2000);
+}
+
+function findCyclePath(startAddress) {
+    const path = [startAddress];
+    const graph = buildDependencyGraph();
+    const visited = new Set();
+    
+    function dfs(current) {
+        if (visited.has(current)) {
+            return path.slice(path.indexOf(current));
+        }
+        
+        visited.add(current);
+        const neighbors = graph.get(current) || [];
+        
+        for (const neighbor of neighbors) {
+            path.push(neighbor);
+            const cycle = dfs(neighbor);
+            if (cycle.length > 0) return cycle;
+            path.pop();
+        }
+        
+        return [];
+    }
+    
+    return dfs(startAddress);
+}
+
+function buildDependencyGraph(sheetIndex = dataState.currentSheet) {
+    const graph = new Map();
+    
+    for (let row = 0; row < 100; row++) {
+        for (let col = 0; col < 26; col++) {
+            const cellData = CellManager.getCellData(row, col, sheetIndex);
+            if (cellData.formula) {
+                const dependencies = extractDependencies(cellData.formula);
+                const cellAddress = getCellAddress(row, col);
+                graph.set(cellAddress, dependencies);
+            }
+        }
+    }
+    
+    return graph;
+}
+
 // Export functions
 window.CycleDetection = {
     hasCycle,
-    wouldCreateCycle
+    wouldCreateCycle,
+    traceCyclePath,
+    colorPromise
 };

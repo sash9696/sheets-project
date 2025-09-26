@@ -133,6 +133,10 @@ class SheetsApp {
                 };
                 input.click();
                 break;
+                
+            case 'download-csv':
+                FileManager.downloadAsCSV();
+                break;
         }
     }
 
