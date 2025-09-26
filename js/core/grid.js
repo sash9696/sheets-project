@@ -119,11 +119,22 @@ function handleCellClick(event) {
     const col = parseInt(cell.dataset.col);
     setActiveCell(row, col);
     updateAddressBar(getCellAddress(row, col));
+    
+    // Show cell data in formula bar
     const data = CellManager.getCellData(row, col);
-    cell.textContent = data.value || '';
-    console.log(`Cell clicked: ${getCellAddress(row, col)}`);
     const formulaInput = document.querySelector('.formula-input');
     if (formulaInput) formulaInput.value = data.formula || data.value || '';
+    
+    // Update toolbar to show current formatting
+    updateToolbarFormatting(data.formatting);
+}
+
+function updateToolbarFormatting(formatting) {
+    const boldBtn = document.querySelector('[data-action="bold"]');
+    if (boldBtn) boldBtn.classList.toggle('active', formatting.bold);
+    
+    const italicBtn = document.querySelector('[data-action="italic"]');
+    if (italicBtn) italicBtn.classList.toggle('active', formatting.italic);
 }
 
 // Set active cell

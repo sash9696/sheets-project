@@ -43,6 +43,26 @@ class SheetsApp {
         console.log(`Toolbar action: ${action}`);
         
         // TODO: Handle different toolbar actions
+
+        const { row, col } = gridState.activeCell;
+
+        switch (action) {
+            case 'bold':
+                const isBold = button.classList.contains('active');
+                FormattingManager.applyBold(row, col, !isBold);
+                button.classList.toggle('active');
+                break;
+                
+            case 'italic':
+                const isItalic = button.classList.contains('active');
+                FormattingManager.applyItalic(row, col, !isItalic);
+                button.classList.toggle('active');
+                break;
+                
+            case 'underline':
+                // TODO: Implement underline
+                break;
+        }
     }
 
     handleFormulaKeydown(event) {
