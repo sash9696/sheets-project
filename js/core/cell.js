@@ -63,6 +63,24 @@ function updateCellUI(row, col, value) {
     }
 }
 
+// Update cell UI with formatting
+function updateCellUIWithFormatting(row, col, value, formatting) {
+    const address = getCellAddress(row, col);
+    const cell = gridState.cells.get(address);
+    if (cell) {
+        cell.textContent = value;
+        
+        // Apply formatting
+        cell.style.fontWeight = formatting.bold ? 'bold' : 'normal';
+        cell.style.fontStyle = formatting.italic ? 'italic' : 'normal';
+        cell.style.fontSize = formatting.fontSize + 'px';
+        cell.style.color = formatting.fontColor;
+        cell.style.backgroundColor = formatting.backgroundColor === '#ffffff' ? 'transparent' : formatting.backgroundColor;
+        cell.style.fontFamily = formatting.fontFamily;
+        cell.style.textAlign = formatting.textAlign;
+    }
+}
+
 // Track dependencies (which cells depend on which others)
 function addDependency(parentAddress, childAddress) {
     const [parentRow, parentCol] = parseCellAddress(parentAddress);

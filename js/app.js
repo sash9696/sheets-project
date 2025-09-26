@@ -61,8 +61,9 @@ class SheetsApp {
             const { row, col } = gridState.activeCell;
             FormattingManager.applyBackgroundColor(row, col, bgColorInp.value);
         });
-
+        
         this.setupToolbarEvents();
+        this.setupSheetEvents();
     }
 
     handleToolbarClick(event) {
@@ -157,6 +158,25 @@ class SheetsApp {
         if (toolbar) {
             toolbar.addEventListener('click', this.handleToolbarClick.bind(this));
         }
+    }
+    
+    setupSheetEvents() {
+        // Add sheet button
+        const addSheetBtn = document.querySelector('.add-sheet-btn');
+        if (addSheetBtn) {
+            addSheetBtn.addEventListener('click', () => {
+                MultiSheetManager.createNewSheet();
+            });
+        }
+        
+        // Sheet tab clicks
+        const sheetTabs = document.querySelectorAll('.sheet-tab');
+        sheetTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const sheetIndex = parseInt(tab.dataset.sheet);
+                MultiSheetManager.switchToSheet(sheetIndex);
+            });
+        });
     }
 }
 
