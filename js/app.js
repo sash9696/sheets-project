@@ -102,6 +102,37 @@ class SheetsApp {
             case 'align-right':
                 FormattingManager.applyTextAlign(row, col, 'right');
                 break;
+                
+            case 'copy':
+                CopyPasteManager.copySelection();
+                break;
+                
+            case 'cut':
+                CopyPasteManager.copySelection();
+                // Clear the cell after copying
+                CellManager.setCellValue(row, col, '');
+                break;
+                
+            case 'paste':
+                CopyPasteManager.pasteSelection();
+                break;
+                
+            case 'save':
+                FileManager.saveWorkbook();
+                break;
+                
+            case 'open':
+                // Create file input for loading
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.json';
+                input.onchange = (e) => {
+                    if (e.target.files[0]) {
+                        FileManager.loadWorkbook(e.target.files[0]);
+                    }
+                };
+                input.click();
+                break;
         }
     }
 
