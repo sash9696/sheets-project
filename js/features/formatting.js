@@ -28,6 +28,18 @@ function applyBackgroundColor(row, col, color) {
     updateCellFormatting(row, col);
 }
 
+function applyFontFamily(row, col, family) {
+    const cellData = CellManager.getCellData(row, col);
+    cellData.formatting.fontFamily = family;
+    updateCellFormatting(row, col);
+}
+
+function applyTextAlign(row, col, align) {
+    const cellData = CellManager.getCellData(row, col);
+    cellData.formatting.textAlign = align;
+    updateCellFormatting(row, col);
+}
+
 // Update cell formatting in UI
 function updateCellFormatting(row, col) {
     const address = getCellAddress(row, col);
@@ -42,6 +54,8 @@ function updateCellFormatting(row, col) {
         cell.style.fontSize = formatting.fontSize + 'px';
         cell.style.color = formatting.fontColor;
         cell.style.backgroundColor = formatting.backgroundColor === '#ffffff' ? 'transparent' : formatting.backgroundColor;
+        cell.style.fontFamily = formatting.fontFamily;
+        cell.style.textAlign = formatting.textAlign;
     }
 }
 
@@ -50,5 +64,7 @@ window.FormattingManager = {
     applyItalic,
     applyFontSize,
     applyFontColor,
-    applyBackgroundColor
+    applyBackgroundColor,
+    applyFontFamily,
+    applyTextAlign
 };

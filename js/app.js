@@ -32,6 +32,36 @@ class SheetsApp {
             formulaInput.addEventListener('keydown', this.handleFormulaKeydown.bind(this));
         }
         
+        // Toolbar inputs
+        const fontSizeSel = document.querySelector('.font-size');
+        const fontFamilySel = document.querySelector('.font-family');
+        const fontColorInp = document.querySelector('.font-color');
+        const bgColorInp = document.querySelector('.background-color');
+
+        if (fontSizeSel) fontSizeSel.addEventListener('change', () => {
+            if (!gridState.activeCell) return;
+            const { row, col } = gridState.activeCell;
+            FormattingManager.applyFontSize(row, col, parseInt(fontSizeSel.value, 10));
+        });
+
+        if (fontFamilySel) fontFamilySel.addEventListener('change', () => {
+            if (!gridState.activeCell) return;
+            const { row, col } = gridState.activeCell;
+            FormattingManager.applyFontFamily(row, col, fontFamilySel.value);
+        });
+
+        if (fontColorInp) fontColorInp.addEventListener('change', () => {
+            if (!gridState.activeCell) return;
+            const { row, col } = gridState.activeCell;
+            FormattingManager.applyFontColor(row, col, fontColorInp.value);
+        });
+
+        if (bgColorInp) bgColorInp.addEventListener('change', () => {
+            if (!gridState.activeCell) return;
+            const { row, col } = gridState.activeCell;
+            FormattingManager.applyBackgroundColor(row, col, bgColorInp.value);
+        });
+
         this.setupToolbarEvents();
     }
 
@@ -61,6 +91,16 @@ class SheetsApp {
                 
             case 'underline':
                 // TODO: Implement underline
+                break;
+
+            case 'align-left':
+                FormattingManager.applyTextAlign(row, col, 'left');
+                break;
+            case 'align-center':
+                FormattingManager.applyTextAlign(row, col, 'center');
+                break;
+            case 'align-right':
+                FormattingManager.applyTextAlign(row, col, 'right');
                 break;
         }
     }

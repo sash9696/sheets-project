@@ -135,6 +135,18 @@ function updateToolbarFormatting(formatting) {
     
     const italicBtn = document.querySelector('[data-action="italic"]');
     if (italicBtn) italicBtn.classList.toggle('active', formatting.italic);
+
+    const fontSizeSel = document.querySelector('.font-size');
+    if (fontSizeSel) fontSizeSel.value = String(formatting.fontSize);
+
+    const fontFamilySel = document.querySelector('.font-family');
+    if (fontFamilySel) fontFamilySel.value = formatting.fontFamily;
+
+    const fontColorInp = document.querySelector('.font-color');
+    if (fontColorInp) fontColorInp.value = formatting.fontColor;
+
+    const bgColorInp = document.querySelector('.background-color');
+    if (bgColorInp) bgColorInp.value = formatting.backgroundColor;
 }
 
 // Set active cell
