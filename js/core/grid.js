@@ -119,7 +119,11 @@ function handleCellClick(event) {
     const col = parseInt(cell.dataset.col);
     setActiveCell(row, col);
     updateAddressBar(getCellAddress(row, col));
+    const data = CellManager.getCellData(row, col);
+    cell.textContent = data.value || '';
     console.log(`Cell clicked: ${getCellAddress(row, col)}`);
+    const formulaInput = document.querySelector('.formula-input');
+    if (formulaInput) formulaInput.value = data.formula || data.value || '';
 }
 
 // Set active cell
@@ -178,8 +182,10 @@ function handleEnterKey() {
 }
 
 function updateCellValue(address, value) {
-    console.log(`Cell ${address} value: ${value}`);
-}
+    const row = parseInt(address.slice(1), 10) - 1;
+    const col = address.charCodeAt(0) - 65;
+    CellManager.setCellValue(row, col, value);
+  }
 
 
 window.GridManager = {

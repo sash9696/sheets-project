@@ -63,9 +63,18 @@ function updateCellUI(row, col, value) {
     }
 }
 
+function setCellFormula(row, col, formula) {
+    const cellData = getCellData(row, col);
+    cellData.formula = formula;
+    const result = FormulaEngine.evaluateFormula(formula);
+    setCellValue(row, col, result);
+  }
+  
+
 
 window.CellManager = {
     getCellData,
     setCellValue,
-    createCellData
+    createCellData,
+    setCellFormula
 };

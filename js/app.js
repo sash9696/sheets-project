@@ -13,6 +13,8 @@ class SheetsApp {
         this.initializeGrid();
         this.setupEventListeners();
         console.log('App initialized successfully!');
+        GridManager.setActiveCell(0, 0);
+        document.querySelector('.address-input').value = 'A1';
     }
 
     initializeGrid(){
@@ -44,15 +46,17 @@ class SheetsApp {
     }
 
     handleFormulaKeydown(event) {
-        if (event.key === 'Enter') {
-            const formula = event.target.value;
-            if (formula && gridState.activeCell) {
-                console.log(`Formula entered: ${formula}`);
-                // TODO: Handle formula evaluation
-            }
+        if (event.key !== 'Enter' || !gridState.activeCell) return;
+        const input = event.target.value;
+      
+        const { row, col } = gridState.activeCell;
+        if (FormulaEngine.isFormula(input)) {
+          CellManager.setCellFormula(row, col, input);
+        } else {
+          CellManager.setCellValue(row, col, input);
         }
     }
-    
+
     setupToolbarEvents() {
         const toolbar = document.querySelector('.toolbar');
         if (toolbar) {
